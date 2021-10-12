@@ -1,7 +1,27 @@
 import unittest
-
 import httpretty
-import requests
+
+from main import getWordMeaning
+
+
+class EndToEndTests(unittest.TestCase):
+
+    def test_singleMeaningWord(self):
+        httpretty.enable(verbose=True, allow_net_connect=False)
+        httpretty.register_uri(httpretty.GET, "https://api.dictionaryapi.dev/api/v2/entries/en/anonymous",
+                               body=anonymousResponse)
+
+        word = getWordMeaning("anonymous")
+        self.assertEqual(word.word, "anonymous")
+        self.assertEqual(word.definition, "(of a person) not identified by name; of unknown name.")
+
+        httpretty.disable()
+        httpretty.reset()
+
+    @unittest.skip
+    def test_multiMeaningWord(self):
+        self.assertEqual(True, False)  # add assertion here
+
 
 anonymousResponse = '''
 [
@@ -52,25 +72,6 @@ anonymousResponse = '''
    }
 ]
 '''
-
-
-class EndToEndTests(unittest.TestCase):
-
-    def test_singleMeaningWord(self):
-        httpretty.enable(verbose=True, allow_net_connect=False)
-        httpretty.register_uri(httpretty.GET, "https://api.dictionaryapi.dev/api/v2/entries/en/anonymous",
-                               body=anonymousResponse)
-
-        response = requests.get("https://api.dictionaryapi.dev/api/v2/entries/en/anonymous")
-        self.assertEqual(response.json(), anonymousResponse)
-
-        httpretty.disable()
-        httpretty.reset()
-
-    @unittest.skip
-    def test_multiMeaningWord(self):
-        self.assertEqual(True, False)  # add assertion here
-
 
 if __name__ == '__main__':
     unittest.main()
