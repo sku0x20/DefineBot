@@ -1,5 +1,5 @@
-def isDefine():
-    pass
+def isDefine(commandName):
+    return commandName == "define"
 
 
 def isHighFive(commandName):

@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 
 from DiscordCommands import isHighFive, isDefine
 from DiscordUtils import verify, isPing, pong, isApplicationCommand
+from main import getWordMeaning
 
 app = Flask(__name__)
 
@@ -32,6 +33,14 @@ def outgoingWebhook():
                 }
             })
         elif isDefine(commandName):
-            print(request.json)
-            pass
-            # todo
+            wordStr = request.json["data"]["options"][0]["value"]
+            word = getWordMeaning(wordStr)
+            return jsonify({
+                "type": 4,
+                "data": {
+                    "tts": False,
+                    "content": f"*{word.word}*: {word.definition}",
+                    "embeds": [],
+                    "allowed_mentions": {"parse": []}
+                }
+            })
