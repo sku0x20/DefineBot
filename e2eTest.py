@@ -20,6 +20,8 @@ class EndToEndTests(unittest.TestCase):
 
     @unittest.skip
     def test_multiMeaningWord(self):
+        # will do it later on
+        # https://api.dictionaryapi.dev/api/v2/entries/en/cricket
         self.assertEqual(True, False)  # add assertion here
 
 
