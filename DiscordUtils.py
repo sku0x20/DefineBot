@@ -1,4 +1,5 @@
-from flask import jsonify
+import os
+
 from werkzeug.exceptions import abort
 
 from DiscordEnums import InteractionType
@@ -10,8 +11,7 @@ def verify(requestParam):
 
     # Your public key can be found on your application in the Developer Portal
     # PUBLIC_KEY = 'APPLICATION_PUBLIC_KEY'
-    PUBLIC_KEY = 'fcb1d87bdcd3c00ecf45a9df8494d276bb00f2982517b5d4e7b19f5e563a8187'
-
+    PUBLIC_KEY = os.environ.get('PUBLIC_KEY')
     verify_key = VerifyKey(bytes.fromhex(PUBLIC_KEY))
 
     signature = requestParam.headers["X-Signature-Ed25519"]
