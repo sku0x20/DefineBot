@@ -24,15 +24,15 @@ def verify(requestParam):
         abort(401, 'invalid request signature')
 
 
-def isPing(requestParam):
-    return requestParam.json["type"] == InteractionType.PING
+def isPing(typeParam):
+    return InteractionType(typeParam) == InteractionType.PING
 
 
-def isApplicationCommand(requestParam):
-    return requestParam.json["type"] == InteractionType.APPLICATION_COMMAND
+def isApplicationCommand(typeParam):
+    return InteractionType(typeParam) == InteractionType.APPLICATION_COMMAND
 
 
 def pong():
     return {
-        "type": InteractionType.PING
+        "type": InteractionType.PING.value
     }

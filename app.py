@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
-from werkzeug.exceptions import abort
 
+from DiscordCommands import isHighFive, isDefine
 from DiscordUtils import verify, isPing, pong, isApplicationCommand
 
 app = Flask(__name__)
@@ -14,16 +14,24 @@ def root():
 @app.route("/interactions/", methods=["POST"])
 def outgoingWebhook():
     verify(request)
-    if isPing(request):
+    requestType = request.json["type"]
+    if isPing(requestType):
         return jsonify(pong())
-    elif isApplicationCommand(request):
-        # print(request.json)
-        return jsonify({
-            "type": 4,
-            "data": {
-                "tts": False,
-                "content": "Congrats on sending your command!",
-                "embeds": [],
-                "allowed_mentions": {"parse": []}
-            }
-        })
+    elif isApplicationCommand(requestType):
+        commandName = request.json["data"]["name"]
+        if isHighFive(commandName):
+            userFrom = request.json["member"]["user"]["id"]
+            userTo = request.json["data"]["target_id"]
+            return jsonify({
+                "type": 4,
+                "data": {
+                    "tts": False,
+                    "content": f"High Five <@{userTo}>",
+                    "embeds": [],
+                    "allowed_mentions": {"parse": ["users"]}
+                }
+            })
+        elif isDefine(commandName):
+            print(request.json)
+            pass
+            # todo

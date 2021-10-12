@@ -18,6 +18,9 @@ class EndToEndTests(unittest.TestCase):
         httpretty.disable()
         httpretty.reset()
 
+    def test_NoMeaningFound(self):
+        pass
+
     @unittest.skip
     def test_multiMeaningWord(self):
         # will do it later on
