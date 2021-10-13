@@ -2,3 +2,4 @@
 .idea
 setup.py
 .env
+/src/test/json_responses.txt

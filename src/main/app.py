@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, request, jsonify
 
 from DiscordCommands import isHighFive, isDefine
@@ -14,7 +16,8 @@ def root():
 
 @app.route("/interactions/", methods=["POST"])
 def outgoingWebhook():
-    verify(request)
+    if os.environ["TEST"] != "1":
+        verify(request)
     requestType = request.json["type"]
     if isPing(requestType):
         return jsonify(pong())
