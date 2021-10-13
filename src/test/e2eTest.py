@@ -6,6 +6,9 @@ from main import getWordMeaning
 
 class EndToEndTests(unittest.TestCase):
 
+    def test_flaskSingleMeaningWord(self):
+        pass
+
     def test_singleMeaningWord(self):
         httpretty.enable(verbose=True, allow_net_connect=False)
         httpretty.register_uri(httpretty.GET, "https://api.dictionaryapi.dev/api/v2/entries/en/anonymous",
