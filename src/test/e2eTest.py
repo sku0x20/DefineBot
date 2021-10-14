@@ -1,10 +1,8 @@
 import os
-import re
 import unittest
 
 import httpretty
 
-import Constant
 import JsonSamples
 import TestUtils
 from app import app
