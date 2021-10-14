@@ -5,6 +5,7 @@ import unittest
 import httpretty
 
 import Constant
+import JsonSamples
 import TestUtils
 from app import app
 
@@ -32,14 +33,22 @@ class EndToEndTests(unittest.TestCase):
         response = rv.json
         self.assertDictEqual({"type": 1}, response)
 
-    # def test_CommandHighFive(self):
-    #     rv = self.client.post(
-    #         "/interactions/",
-    #         data=createHighFiveRequest(),
-    #         headers={"Content-Type": "application/json"}
-    #     )
-    #     response = rv.json
-    #     self.assertDictEqual({"type": 1}, response)
+    def test_highFive(self):
+        rv = self.client.post(
+            "/interactions/",
+            data=TestUtils.stringFromJsonSample(JsonSamples.hiveFiveRequest),
+            headers={"Content-Type": "application/json"}
+        )
+        response = rv.json
+        self.assertDictEqual({
+            "type": 4,
+            "data": {
+                "tts": False,
+                "content": "High Five <@678704423321638412801>",
+                "embeds": [],
+                "allowed_mentions": {"parse": ["users"]}
+            }
+        }, response)
 
     # def test_singleMeaningWord(self):
     # httpretty.register_uri(httpretty.GET, Constant.FREE_DICTIONARY_API.format(word="anonymous"),
@@ -75,6 +84,7 @@ class EndToEndTests(unittest.TestCase):
     #     # will do it later on
     #     # https://api.dictionaryapi.dev/api/v2/entries/en/cricket
     #     self.assertEqual(True, False)  # add assertion here
+
 
 if __name__ == '__main__':
     unittest.main()
