@@ -79,6 +79,51 @@ hiveFiveRequest = '''
 }
 '''
 
+defineRequest = '''
+{
+   "application_id":"118382028789745568",
+   "channel_id":"432082637558205476",
+   "data":{
+      "id":"986943371695116014",
+      "name":"define",
+      "options":[
+         {
+            "name":"word",
+            "type":3,
+            "value":"test"
+         }
+      ],
+      "type":1
+   },
+   "guild_id":"480576936483357076",
+   "id":"256121478197384959",
+   "member":{
+      "avatar":"None",
+      "deaf":false,
+      "is_pending":false,
+      "joined_at":"2021-05-06T11:34:36.095000+00:00",
+      "mute":false,
+      "nick":"None",
+      "pending":false,
+      "permissions":"1099511627775",
+      "premium_since":"None",
+      "roles":[
+
+      ],
+      "user":{
+         "avatar":"7u0uw78r7tws1r4ed0im",
+         "discriminator":"9007",
+         "id":"532841176724020215",
+         "public_flags":0,
+         "username":"testuser"
+      }
+   },
+   "token":"x592fcnaee4huvjxg1ea",
+   "type":2,
+   "version":1
+}
+'''
+
 anonymousResponse = '''
 [
    {
