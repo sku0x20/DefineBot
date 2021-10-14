@@ -1,7 +1,7 @@
 from typing import Final
 
 from Commands.DiscordCommand import DiscordCommand
-from main import getWordMeaning
+from FreeDictionary import FreeDictionary
 
 
 class Define(DiscordCommand):
@@ -9,7 +9,8 @@ class Define(DiscordCommand):
 
     def execute(self, jsonRequest) -> dict:
         wordStr = jsonRequest["data"]["options"][0]["value"]
-        word = getWordMeaning(wordStr)
+        word = FreeDictionary.queryWord(wordStr)
+        # todo complete this
         return ({
             "type": 4,
             "data": {

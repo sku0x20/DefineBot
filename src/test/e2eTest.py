@@ -3,7 +3,7 @@ import unittest
 
 import httpretty
 
-import Constants
+from FreeDictionary import FreeDictionary
 import JsonSamples
 import TestUtils
 from app import app
@@ -50,7 +50,7 @@ class EndToEndTest(unittest.TestCase):
         }, response)
 
     def test_singleMeaningWord(self):
-        httpretty.register_uri(httpretty.GET, Constants.FREE_DICTIONARY_API.format(word="anonymous"),
+        httpretty.register_uri(httpretty.GET, FreeDictionary.API.format(word="anonymous"),
                                body=JsonSamples.anonymousResponse)
         rv = self.client.post(
             "/interactions/",
@@ -59,11 +59,14 @@ class EndToEndTest(unittest.TestCase):
             headers={"Content-Type": "application/json"}
         )
         response = rv.json
+        content = ("  anonymous \n"
+                   "1. (of a person) not identified by name; of unknown name. \n"
+                   "   e.g. the donor's wish to remain anonymous")
         self.assertDictEqual({
             "type": 4,
             "data": {
                 "tts": False,
-                "content": "*anonymous*: (of a person) not identified by name; of unknown name.",
+                "content": content,
                 "embeds": [],
                 "allowed_mentions": {"parse": []}
             }
