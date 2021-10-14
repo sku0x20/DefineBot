@@ -15,5 +15,5 @@ class DiscordCommand(ABC):
         pass
 
     @classmethod
-    def isIt(cls, commandName) -> bool:
+    def isCommand(cls, commandName) -> bool:
         return cls.COMMAND_NAME == commandName

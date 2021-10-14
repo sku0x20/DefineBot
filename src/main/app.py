@@ -24,7 +24,7 @@ def outgoingWebhook():
         return jsonify(pong())
     elif isApplicationCommand(requestType):
         commandName = request.json["data"]["name"]
-        if HighFive.isIt(commandName):
+        if HighFive.isCommand(commandName):
             jsonBody = request.json
             response = HighFive().execute(jsonBody)
             return jsonify(response)
