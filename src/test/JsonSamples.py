@@ -90,7 +90,7 @@ defineRequest = '''
          {
             "name":"word",
             "type":3,
-            "value":"test"
+            "value":"wordToSearch"
          }
       ],
       "type":1

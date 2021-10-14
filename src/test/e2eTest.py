@@ -3,12 +3,13 @@ import unittest
 
 import httpretty
 
+import Constants
 import JsonSamples
 import TestUtils
 from app import app
 
 
-class EndToEndTests(unittest.TestCase):
+class EndToEndTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -48,19 +49,25 @@ class EndToEndTests(unittest.TestCase):
             }
         }, response)
 
-    # def test_singleMeaningWord(self):
-    # httpretty.register_uri(httpretty.GET, Constant.FREE_DICTIONARY_API.format(word="anonymous"),
-    #                        body=anonymousResponse)
-    # rv = self.client.get(
-    #     "/interactions/",
-    #     data=pingRequest.format(
-    #         applicationId="1234567890",
-    #         requestId="09123231234",
-    #         requestToken="abcDefghiJkl01234"
-    #     )
-    # )
-    # response = rv.json
-    # self.assertEqual("<p>App is live</p>", body)
+    def test_singleMeaningWord(self):
+        httpretty.register_uri(httpretty.GET, Constants.FREE_DICTIONARY_API.format(word="anonymous"),
+                               body=JsonSamples.anonymousResponse)
+        rv = self.client.post(
+            "/interactions/",
+            data=TestUtils.stringFromJsonSample(JsonSamples.defineRequest)
+                .replace("wordToSearch", "anonymous"),
+            headers={"Content-Type": "application/json"}
+        )
+        response = rv.json
+        self.assertDictEqual({
+            "type": 4,
+            "data": {
+                "tts": False,
+                "content": "*anonymous*: (of a person) not identified by name; of unknown name.",
+                "embeds": [],
+                "allowed_mentions": {"parse": []}
+            }
+        }, response)
 
     # def test_singleMeaningWord(self):
     #     httpretty.enable(verbose=True, allow_net_connect=False)

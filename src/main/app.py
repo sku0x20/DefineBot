@@ -40,3 +40,4 @@ def outgoingWebhook():
                     "allowed_mentions": {"parse": []}
                 }
             })
+    # todo return response with response error code here
