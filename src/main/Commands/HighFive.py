@@ -1,6 +1,6 @@
 from typing import Final
 
-from DiscordCommand import DiscordCommand
+from Commands.DiscordCommand import DiscordCommand
 
 
 class HighFive(DiscordCommand):

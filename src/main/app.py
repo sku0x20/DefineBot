@@ -2,10 +2,9 @@ import os
 
 from flask import Flask, request, jsonify
 
-from DiscordCommandsTemp import isDefine
+from Commands.Define import Define
+from Commands.HighFive import HighFive
 from DiscordUtils import verify, isPing, pong, isApplicationCommand
-from HighFive import HighFive
-from main import getWordMeaning
 
 app = Flask(__name__)
 
@@ -28,16 +27,8 @@ def outgoingWebhook():
             jsonBody = request.json
             response = HighFive().execute(jsonBody)
             return jsonify(response)
-        elif isDefine(commandName):
-            wordStr = request.json["data"]["options"][0]["value"]
-            word = getWordMeaning(wordStr)
-            return jsonify({
-                "type": 4,
-                "data": {
-                    "tts": False,
-                    "content": f"*{word.word}*: {word.definition}",
-                    "embeds": [],
-                    "allowed_mentions": {"parse": []}
-                }
-            })
+        elif Define.isCommand(commandName):
+            jsonBody = request.json
+            response = Define().execute(jsonBody)
+            return jsonify(response)
     # todo return response with response error code here
