@@ -60,8 +60,9 @@ class EndToEndTest(unittest.TestCase):
         )
         response = rv.json
         content = ("  anonymous \n"
-                   "1. (of a person) not identified by name; of unknown name. \n"
+                   "1. adjective; (of a person) not identified by name; of unknown name. \n"
                    "   e.g. the donor's wish to remain anonymous")
+        self.assertEqual(response["data"]["content"], content)
         self.assertDictEqual({
             "type": 4,
             "data": {
