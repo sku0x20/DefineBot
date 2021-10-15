@@ -13,7 +13,7 @@ class FreeDictionary:
         response = requests.get(cls.API.format(word=wordStr))
         return cls._parseWordFromResponse(response.json())
 
-    # methods stating with _ should be considered private
+    # methods starting with _ should be considered private
     @classmethod
     def _parseWordFromResponse(cls, jsonResponse) -> Word:
         wordStr = jsonResponse[0]["word"]
