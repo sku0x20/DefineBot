@@ -4,6 +4,7 @@ from httpretty import httpretty
 
 import JsonSamples
 from FreeDictionary import FreeDictionary
+from Word import Homograph, Definition
 
 
 class FreeDictionaryTest(unittest.TestCase):
@@ -18,11 +19,21 @@ class FreeDictionaryTest(unittest.TestCase):
     def test_queryWord_SingleMeaning(self):
         httpretty.register_uri(httpretty.GET, FreeDictionary.API.format(word="anonymous"),
                                body=JsonSamples.anonymousResponse)
-        wordLookup = FreeDictionary.queryWord("anonymous")
+        word = FreeDictionary.queryWord("anonymous")
         self.assertEqual(word.word, "anonymous")
-        # self.assertEqual(word.definition, "(of a person) not identified by name; of unknown name.")
-        # self.assertEqual(word.example, "(of a person) not identified by name; of unknown name.")
-        # self.assertEqual(word.partOfSpeech, "adjective")
+        self.assertEqual(len(word.homographs), 1)
+        homograph = word.homographs[0]
+        expectedHomograph = Homograph(
+            "late 16th century: via late Latin from Greek anōnumos ‘nameless’ (from an- ‘without’ + onoma ‘name’) + "
+            "-ous.",
+            [
+                Definition(
+                    "adjective",
+                    "(of a person) not identified by name; of unknown name.",
+                    "the donor's wish to remain anonymous"
+                )
+            ])
+        self.assertEqual(homograph, expectedHomograph)
 
     def test_queryWord_MultiMeaning(self):
         pass

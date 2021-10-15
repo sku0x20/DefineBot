@@ -5,7 +5,6 @@ from typing import Dict, List
 @dataclass(frozen=True)
 class Word:
     word: str
-    origin: str
     homographs: List["Homograph"]
 
     # just for sake; we are only checking weather two word strings match,
@@ -27,6 +26,7 @@ class Word:
 
 @dataclass(frozen=True)
 class Homograph:
+    origin: str
     definitions: List["Definition"]
 
 

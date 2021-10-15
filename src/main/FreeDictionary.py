@@ -2,7 +2,7 @@ from typing import Final
 
 import requests
 
-from Word import Word
+from Word import Word, Homograph, Definition
 
 
 class FreeDictionary:
@@ -13,8 +13,14 @@ class FreeDictionary:
         response = requests.get(cls.API.format(word=wordStr))
         return cls._parseWordFromResponse(response.json())
 
+    # methods stating with _ should be considered private
     @classmethod
     def _parseWordFromResponse(cls, jsonResponse) -> Word:
-        word = jsonResponse[0]["word"]
+        wordStr = jsonResponse[0]["word"]
+        homographs = []
+        for i in range(len(jsonResponse)):
+            definitions = []
+            # for
+            print(jsonResponse[i])
         definition = jsonResponse[0]["meanings"][0]["definitions"][0]["definition"]
-        return Word(word, definition)
+        return Word("test", [Homograph("", [Definition("test", "test", "test")])])
