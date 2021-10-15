@@ -27,7 +27,7 @@ class Word:
 @dataclass(frozen=True)
 class Homograph:
     origin: str
-    definitions: List["Definition"]
+    definitions: Dict[str, List["Definition"]]  # key: partOfSpeech
 
 
 @dataclass(frozen=True)
