@@ -19,10 +19,13 @@ class FreeDictionaryTest(unittest.TestCase):
         httpretty.register_uri(httpretty.GET, FreeDictionary.API.format(word="anonymous"),
                                body=JsonSamples.anonymousResponse)
         wordLookup = FreeDictionary.queryWord("anonymous")
-        # self.assertEqual(word.word, "anonymous")
+        self.assertEqual(word.word, "anonymous")
         # self.assertEqual(word.definition, "(of a person) not identified by name; of unknown name.")
         # self.assertEqual(word.example, "(of a person) not identified by name; of unknown name.")
         # self.assertEqual(word.partOfSpeech, "adjective")
+
+    def test_queryWord_MultiMeaning(self):
+        pass
 
 
 if __name__ == '__main__':

@@ -6,7 +6,7 @@ from typing import Dict, List
 class Word:
     word: str
     origin: str
-    definitions: List["Definition"]
+    homographs: List["Homograph"]
 
     # just for sake; we are only checking weather two word strings match,
     # if they do, we return true, since a word should be unique in itself
@@ -23,6 +23,11 @@ class Word:
     # since word should be unique in itself
     def __hash__(self):
         return self.word.__hash__()
+
+
+@dataclass(frozen=True)
+class Homograph:
+    definitions: List["Definition"]
 
 
 @dataclass(frozen=True)
