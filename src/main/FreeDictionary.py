@@ -19,13 +19,14 @@ class FreeDictionary:
         wordStr = jsonResponse[0]["word"]
         homographs = []
         for homographJsonObject in jsonResponse:
-            definitions = []
+            definitions = {}
             for meaningJsonObject in homographJsonObject["meanings"]:
                 currentPartOfSpeech: str = meaningJsonObject["partOfSpeech"]
+                definitions[currentPartOfSpeech] = []
                 for definitionJsonObject in meaningJsonObject["definitions"]:
                     definition = definitionJsonObject["definition"]
-                    example = definitionJsonObject["example"]
-                    definitions.append(Definition(currentPartOfSpeech, definition, example))
+                    example = definitionJsonObject.get("example", "")
+                    definitions[currentPartOfSpeech].append(Definition(currentPartOfSpeech, definition, example))
             origin = homographJsonObject["origin"]
             homographs.append(Homograph(origin, definitions))
         return Word(wordStr, homographs)
