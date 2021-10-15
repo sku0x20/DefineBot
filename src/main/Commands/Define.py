@@ -24,12 +24,15 @@ class Define(DiscordCommand):
     @staticmethod
     def _formatWord(word: Word):
         count = 1
-        formattedString = f"  {word.word} \n"
+        formattedString = ""
         for homograph in word.homographs:
-            formattedString += f"{count}. "
+            formattedString += f"{count}. {word.word} \n"
+            letterCount = 97
             for key, value in homograph.definitions.items():
+                formattedString += f"  {chr(letterCount)}. {key}; \n"
                 for definition in value:
-                    formattedString += f"{definition.partOfSpeech}; {definition.definition} \n"
-                    formattedString += f"   e.g. {definition.example}"
+                    formattedString += f"    - {definition.definition} \n"
+                    formattedString += f"      e.g. {definition.example} \n"
+                letterCount += 1
             count += 1
-        return formattedString
+        return formattedString.rstrip('\n')

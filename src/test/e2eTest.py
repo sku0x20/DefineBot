@@ -59,9 +59,12 @@ class EndToEndTest(unittest.TestCase):
             headers={"Content-Type": "application/json"}
         )
         response = rv.json
-        content = ("  anonymous \n"
-                   "1. adjective; (of a person) not identified by name; of unknown name. \n"
-                   "   e.g. the donor's wish to remain anonymous")
+        content = (
+            "1. anonymous \n"
+            "  a. adjective; \n"
+            "    - (of a person) not identified by name; of unknown name. \n"
+            "      e.g. the donor's wish to remain anonymous "
+        )
         self.assertEqual(response["data"]["content"], content)
         self.assertDictEqual({
             "type": 4,
@@ -73,26 +76,49 @@ class EndToEndTest(unittest.TestCase):
             }
         }, response)
 
-    # def test_singleMeaningWord(self):
-    #     httpretty.enable(verbose=True, allow_net_connect=False)
-    #     httpretty.register_uri(httpretty.GET, "https://api.dictionaryapi.dev/api/v2/entries/en/anonymous",
-    #                            body=anonymousResponse)
-    #
-    #     word = getWordMeaning("anonymous")
-    #     self.assertEqual(word.word, "anonymous")
-    #     self.assertEqual(word.definition, "(of a person) not identified by name; of unknown name.")
-    #
-    #     httpretty.disable()
-    #     httpretty.reset()
-    #
+    def test_MultiMeaningWord(self):
+        httpretty.register_uri(httpretty.GET, FreeDictionary.API.format(word="test"),
+                               body=JsonSamples.testResponse)
+        rv = self.client.post(
+            "/interactions/",
+            data=TestUtils.stringFromJsonSample(JsonSamples.defineRequest)
+                .replace("wordToSearch", "test"),
+            headers={"Content-Type": "application/json"}
+        )
+        response = rv.json
+        content = self._getWordTestContent()
+        self.assertEqual(response["data"]["content"], content)
+        self.assertDictEqual({
+            "type": 4,
+            "data": {
+                "tts": False,
+                "content": content,
+                "embeds": [],
+                "allowed_mentions": {"parse": []}
+            }
+        }, response)
+
     # def test_NoMeaningFound(self):
     #     pass
 
-    # @unittest.skip
-    # def test_multiMeaningWord(self):
-    #     # will do it later on
-    #     # https://api.dictionaryapi.dev/api/v2/entries/en/cricket
-    #     self.assertEqual(True, False)  # add assertion here
+    def _getWordTestContent(self):
+        return (
+            "1. test \n"
+            "  a. noun; \n"
+            "    - a procedure intended to establish the quality, performance, or reliability of something, especially before it is taken into widespread use. \n"
+            "      e.g. both countries carried out nuclear tests in May \n"
+            "    - short for Test match. \n"
+            "      e.g. the first Test against New Zealand \n"
+            "    - a movable hearth in a reverberating furnace, used for separating gold or silver from lead. \n"
+            "      e.g.  \n"
+            "  b. verb; \n"
+            "    - take measures to check the quality, performance, or reliability of (something), especially before putting it into widespread use or practice. \n"
+            "      e.g. this range has not been tested on animals \n"
+            "2. test \n"
+            "  a. noun; \n"
+            "    - the shell or integument of some invertebrates and protozoans, especially the chalky shell of a foraminiferan or the tough outer layer of a tunicate. \n"
+            "      e.g.  "
+        )
 
 
 if __name__ == '__main__':
