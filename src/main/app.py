@@ -16,7 +16,7 @@ def root():
 
 @app.route("/interactions/", methods=["POST"])
 def outgoingWebhook():
-    if os.environ["TEST"] != "1":
+    if os.environ.get("TEST", "0") != "1":
         verify(request)
     requestType = request.json["type"]
     if isPing(requestType):
