@@ -1,0 +1,4 @@
+
+
+when we send in gibberish word right now it says interaction fails.
+    - do I want to change it to say like I do not know that word or something than just failing
