@@ -7,6 +7,7 @@ class InteractionType(IntEnum):
     MESSAGE_COMPONENT = 3
 
 
+# todo: nobody using this enum
 class ApplicationCommandType(IntEnum):
     CHAT_INPUT = 1,
     USER = 2,
